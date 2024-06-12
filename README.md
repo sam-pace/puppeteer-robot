@@ -1,4 +1,4 @@
-:robot:
+# :robot:
 #### Task robot do:
 
 - Access an URL
@@ -10,6 +10,12 @@
 - Notify when booking encountred
 - Play alarm sound in windows 🤣
 ------------
+setup
+
+`npm i`
+
+`npm run start`
+___________
 Project with only study purpose.
 
 The use of whatsapp without Registred API Client, don't is recommend by service terms of WhatsApp.
