@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 const fs = require('fs');
-const sendMessage = require('./handleWhatsApp');
+const {authenticate, sendMessage} = require('./handleWhatsApp');
 const player = require('play-sound')();
 require('dotenv').config();
 
@@ -48,8 +48,6 @@ require('dotenv').config();
       }
   };
 
-  sendMessage(msg.login);
-
   const configurePage = async (page) => {
     await page.setViewport({ width: 1080, height: 800 });
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
@@ -83,7 +81,7 @@ require('dotenv').config();
       }, selectors.serviceButton);
   
       console.log(`Button clicked, waiting... (Attempt: ${attemptCount})`);
-      sendMessage(`Tentativa: ${attemptCount}` )
+      await sendMessage(`Tentativa: ${attemptCount}` )
 
       await new Promise(resolve => setTimeout(resolve, 120000));
 
@@ -115,9 +113,14 @@ require('dotenv').config();
   
 
   try {
+
+    console.log('Waiting for WhatsApp authentication...');
+    await authenticate();
+    console.log('WhatsApp authenticated.');
+
     const browser = await puppeteer.launch({
       headless: false,
-      executablePath: 'C:/Program Files (x86)/Microsoft/Edge/Application/msedge.exe',
+      executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe',
       ignoreDefaultArgs: ["--disable-extensions"],
       args: [
         '--no-sandbox',
@@ -137,12 +140,13 @@ require('dotenv').config();
 
     await page.goto(urls.login, {timeout: 0});
     await login(page);
+    await sendMessage(msg.login)
 
     if (await page.$(selectors.serviceRow) === null) {
       await page.goto(urls.services);
       await page.waitForSelector(selectors.serviceRow);
     }
-
+    
     await clickAndWait(page);
 
     await browser.close();
