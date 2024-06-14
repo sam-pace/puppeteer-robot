@@ -6,6 +6,8 @@
   },
   "dependencies": {
     "play-sound": "^1.1.6",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
     "qrcode-terminal": "^0.12.0",
     "whatsapp-web.js": "^1.24.0"
   },
