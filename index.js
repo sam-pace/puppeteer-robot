@@ -48,7 +48,7 @@ const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
         await page.type(selectors.login.password, char, { delay: randomDelay(30, 150) });
       }
 
-      await simulateUserInteraction(page, selectors.login.button);
+      await page.click(selectors.login.button);
 
       await page.waitForNavigation({ waitUntil: 'networkidle0' });
 
@@ -106,7 +106,7 @@ const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
   const clickAndWait = async (page, attemptCount = 1) => {
     try {
-      await simulateUserInteraction(page, selectors.serviceButton);
+      await page.click(selectors.serviceButton);
 
       console.log(`Button clicked, waiting... (Attempt: ${attemptCount})`);
       await sendMessage(`Tentativa: ${attemptCount}`);
