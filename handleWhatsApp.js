@@ -4,7 +4,7 @@ const qrcode = require('qrcode-terminal');
 const client = new Client({
     authStrategy: new LocalAuth(),
     puppeteer: {
-        headless: false,
+        headless: true,
         args: ['--no-sandbox', '--disable-gpu'],
     },
     webVersionCache: { type: 'remote', remotePath: 'https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/2.2412.54.html' }
@@ -47,7 +47,6 @@ const sendMessage = (msg) => {
 
         const chatId = `${process.env.WPP_NUM}@c.us`;
         client.sendMessage(chatId, msg).then(response => {
-            console.log('Message sent:', response);
             resolve(response);
         }).catch(err => {
             console.error('Error when sending message:', err);
